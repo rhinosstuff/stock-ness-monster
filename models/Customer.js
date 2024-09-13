@@ -18,7 +18,7 @@ Customer.init(
         account_manager_id: {
             type: DataTypes.INTEGER,
             references: {
-                model: 'user',
+                model: 'users',
                 key: 'id',
             },
         }, 
