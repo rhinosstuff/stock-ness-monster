@@ -38,7 +38,7 @@ Users.init(
           },
     }, {
     sequelize,
-    modelName: 'users',
+    modelName: 'stock_users',
     freezeTableName: true,
     timestamps: false,
     underscored: true,
