@@ -1,11 +1,11 @@
 const router = require('express').Router();
-const { User } = require('../../models');
+const { Users } = require('../../models');
 
 //login route
 router.post('/login', async (req, res) => {
     try {
         //compare db data with username from request body
-        const userData = await User.findOne({ where: { username: req.body.username }});
+        const userData = await Users.findOne({ where: { username: req.body.username }});
 
         if (!userData) {
             res.status(400).json({ message: 'Incorrect username or password.  Please try again.' });
@@ -45,7 +45,7 @@ router.post('/logout', (req, res) => {
 //new user route
 router.post('/', async (req, res) => {
     try {
-        const newUser = await User.create({
+        const newUser = await Users.create({
             first_name: req.body.firstName,
             last_name: req.body.lastName,
             username: req.body.username,
@@ -63,7 +63,7 @@ router.delete('/:id', async (req, res) => {
     try {
         const userId = req.params.id;
         
-        const deletedUser = await User.destroy({
+        const deletedUser = await Users.destroy({
             where: { id: userId },
         });
 
@@ -83,7 +83,7 @@ router.put('/:id', async (req, res) => {
         const userId = req.params.id;
 
         // Fetch the user to be updated
-        const user = await User.findByPk(userId);
+        const user = await Users.findByPk(userId);
         if (!user) {
             res.status(404).json({ message: 'User not found' });
             return;

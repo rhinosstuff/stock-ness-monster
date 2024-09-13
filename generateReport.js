@@ -1,6 +1,6 @@
 const { CronJob } = require('cron');
 const sequelize = require('./config/connection');
-const { User, Customer, Order, Product, Report } = require('./models');
+const { Users, Customer, Order, Product, Report } = require('./models');
 
 console.log('Starting the report script...');
 
@@ -12,7 +12,7 @@ const generateReport = async () => {
 
     // Fetch all data from the database
     console.log('Fetching users...');
-    const users = await User.findAll();
+    const users = await Users.findAll();
     console.log('Users fetched:', users.length);
 
     console.log('Fetching customers...');

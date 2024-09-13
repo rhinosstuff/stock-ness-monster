@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Customer, User, Order, Product, Category, Report, OrderProduct } = require('../models');
+const { Customer, Users, Order, Product, Category, Report, OrderProduct } = require('../models');
 const withAuth = require('../utils/auth');
 const { getLatestReport, getAllReports } = require('../generateReport');
 
@@ -7,7 +7,7 @@ const { getLatestReport, getAllReports } = require('../generateReport');
 router.get('/', withAuth, async (req, res) => {
     try {
         const userId = req.session.user_id;
-        const result = await User.findByPk(userId, {
+        const result = await Users.findByPk(userId, {
             attributes: ['first_name'],
         });
         
@@ -132,7 +132,7 @@ router.get('/orders', withAuth, async (req, res) => {
         });
         const productData = products.map(order => order.get({ plain: true }));
 
-        const users = await User.findAll({
+        const users = await Users.findAll({
             attributes: ['id', 'first_name', 'last_name'],
         })
         const userData = users.map(order => order.get({ plain: true }));
@@ -157,7 +157,7 @@ router.get('/customers', withAuth, async (req, res) => {
         const data = await Customer.findAll({
             include: [
                 {
-                    model: User,
+                    model: Users,
 
                 },
                 {
@@ -172,7 +172,7 @@ router.get('/customers', withAuth, async (req, res) => {
         });
         const customerData = data.map(customer => customer.get({ plain: true }));
 
-        const users = await User.findAll({
+        const users = await Users.findAll({
             attributes: ['id', 'first_name', 'last_name'],
         })
         const userData = users.map(user => user.get({ plain: true }));
@@ -188,7 +188,7 @@ router.get('/customers', withAuth, async (req, res) => {
 //Route to users page
 router.get('/users', withAuth, async (req, res) => {
     try {
-        const data = await User.findAll({
+        const data = await Users.findAll({
             include: [
                 {
                     model: Customer,

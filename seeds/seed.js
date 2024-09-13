@@ -1,5 +1,5 @@
 const sequelize = require('../config/connection');
-const { User, Customer, Order, Product, Category, OrderProduct } = require('../models');
+const { Users, Customer, Order, Product, Category, OrderProduct } = require('../models');
 
 const userData = require('./userData.json');
 const customerData = require('./customerData.json');
@@ -20,7 +20,7 @@ const seedDatabase = async () => {
     console.log('--- Categories seeded ---');
 
     // Seeding User Data
-    const users = await User.bulkCreate(userData, {
+    const users = await Users.bulkCreate(userData, {
         individualHooks: true,
         returning: true,
     });

@@ -1,7 +1,7 @@
 const Customer = require('./Customer');
 const Order = require('./Order');
 const Product = require('./Product');
-const User = require('./User');
+const Users = require('./Users');
 const Category = require('./category');
 const Report = require('./Report'); 
 const OrderProduct = require('./OrderProduct');
@@ -27,11 +27,11 @@ Order.belongsTo(Customer, {
 });
 
 // User and Customer
-User.hasMany(Customer, {
+Users.hasMany(Customer, {
     foreignKey: 'account_manager_id',
 });
 
-Customer.belongsTo(User, {
+Customer.belongsTo(Users, {
     foreignKey: 'account_manager_id',
 });
 
@@ -46,4 +46,4 @@ Product.belongsTo(Category, {
     foreignKey: 'category_id',
 });
 
-module.exports = { User, Order, Product, Customer, Category, Report, OrderProduct };
+module.exports = { Users, Order, Product, Customer, Category, Report, OrderProduct };
