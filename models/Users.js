@@ -29,6 +29,11 @@ Users.init(
             allowNull: false,
             unique: true,
         },
+        role: {
+          type: DataTypes.STRING,
+          allowNull: false,
+          defaultValue: 'user', // default role is 'user'
+        },
         password: {
             type: DataTypes.STRING,
             allowNull: false,

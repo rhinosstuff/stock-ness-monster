@@ -17,6 +17,7 @@ const addUser = async (event) => {
     const firstName = document.getElementById('first-name').value.trim();
     const lastName = document.getElementById('last-name').value.trim();
     const username = document.getElementById('username').value.trim();
+    const userRole = document.getElementById('user-role').value.trim();
     const password = document.getElementById('password').value.trim();
 
     if (password.length < 8) {
@@ -30,12 +31,12 @@ const addUser = async (event) => {
                     confirmButton: 'bg-warning'
                 }
             });
-    } else if (firstName && lastName && username && password) {
+    } else if (firstName && lastName && username && userRole && password) {
         try {
             //fetch request to api/users
             const response = await fetch('/api/users', {
                 method: 'POST',
-                body: JSON.stringify({ firstName, lastName, username, password }),
+                body: JSON.stringify({ firstName, lastName, username, userRole, password }),
                 headers: { 'Content-Type': 'application/json' },
             });
             
@@ -142,6 +143,7 @@ const editUser = async (event) => {
     const firstName = document.getElementById(`edit-first-name-${id}`).value.trim();
     const lastName = document.getElementById(`edit-last-name-${id}`).value.trim();
     const username = document.getElementById(`edit-username-${id}`).value.trim(); 
+    const userRole = document.getElementById(`edit-user-role-${id}`).value.trim();
     const password = document.getElementById(`edit-password-${id}`).value.trim();
     const confirmPassword = document.getElementById(`confirm-edit-password-${id}`).value.trim();
     
@@ -162,11 +164,11 @@ const editUser = async (event) => {
         return;
     }
 
-    if (firstName && lastName && username && password) {
+    if (firstName && lastName && username && userRole && password) {
         try {
             const response = await fetch(`/api/users/${id}`, {
                 method: 'PUT',
-                body: JSON.stringify({ firstName, lastName, username, password }),
+                body: JSON.stringify({ firstName, lastName, username, userRole, password }),
                 headers: { 'Content-Type': 'application/json' },
             });
 

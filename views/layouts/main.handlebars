@@ -59,11 +59,13 @@
               <button class="btn btn-warning mx-2" id="customer-btn" type="button">Customers</button>
             </li>
             <li class="nav-item d-grid gap-2">
-              <button class="btn btn-warning mx-2" id="users-btn" type="button">My Team</button>
-            </li>
-            <li class="nav-item d-grid gap-2">
               <button class="btn btn-warning mx-2" id="reports-btn" type="button">Reports</button>
             </li>
+            {{#if (eq role "manager")}}
+              <li class="nav-item d-grid gap-2"></li>
+                <button class="btn btn-warning mx-2" id="users-btn" type="button">My Team</button> 
+              </li>
+            {{/if}}
           </ul>
         </div>
       </div>

@@ -22,11 +22,11 @@ document
 });
 
 //event listener for the users button to send to users page
-document
-    .querySelector('#users-btn')
-    .addEventListener('click', function() {
+document.querySelector('#users-btn') 
+  ? document.querySelector('#users-btn').addEventListener('click', function() {
         document.location.href = '/users';
-    });
+    }) 
+  : null;
 
     //event listener for the home button to send to home page
 document

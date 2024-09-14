@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const { Users } = require('../../models');
+const ensureManager = require('../../utils/ensureManager');
 
 //login route
 router.post('/login', async (req, res) => {
@@ -22,6 +23,7 @@ router.post('/login', async (req, res) => {
         req.session.save(() => {
             req.session.user_id = userData.id;
             req.session.logged_in = true;
+            req.session.role = userData.role;
 
             res.json({ user: userData, message: 'You are now logged in!' });
         });
@@ -43,13 +45,14 @@ router.post('/logout', (req, res) => {
 });
 
 //new user route
-router.post('/', async (req, res) => {
+router.post('/', ensureManager, async (req, res) => {
     try {
         const newUser = await Users.create({
             first_name: req.body.firstName,
             last_name: req.body.lastName,
             username: req.body.username,
-            password: req.body.password,
+            role: req.body.userRole,
+            password: req.body.password
         });
 
         res.status(200).json(newUser);
@@ -94,6 +97,7 @@ router.put('/:id', async (req, res) => {
             first_name: req.body.firstName,
             last_name: req.body.lastName,
             username: req.body.username,
+            role: req.body.userRole,
             password: req.body.password
         });
 

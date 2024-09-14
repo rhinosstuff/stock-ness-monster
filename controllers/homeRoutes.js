@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const { Customer, Users, Order, Product, Category, Report, OrderProduct } = require('../models');
 const withAuth = require('../utils/auth');
+const ensureManager = require('../utils/ensureManager');
 const { getLatestReport, getAllReports } = require('../generateReport');
 
 // Route to home page
@@ -16,6 +17,7 @@ router.get('/', withAuth, async (req, res) => {
 
         res.render('homepage', {
             logged_in: req.session.logged_in, firstName: firstName,
+            role: req.session.role,
         });
     } catch (err) {
         res.status(500).json(err);
@@ -27,6 +29,7 @@ router.get('/login', async (req, res) => {
     try {
         res.render('login', {
             logged_in: req.session.logged_in,
+            role: req.session.role,
         })
     } catch (err) {
         res.status(500).json(err);
@@ -40,7 +43,9 @@ router.get('/report', withAuth, async (req, res) => {
       if (report) {
         res.render('report', { 
             logged_in: req.session.logged_in,
-            report: report.data });
+            report: report.data, 
+            role: req.session.role,
+          });
       } else {
         res.status(500).send('Error generating report');
       }
@@ -55,6 +60,7 @@ router.get('/report', withAuth, async (req, res) => {
       const reports = await getAllReports();
       res.render('allreports', {
         logged_in: req.session.logged_in,
+        role: req.session.role,
         reports: reports.map(report => {
           return {
             timestamp: report.timestamp,
@@ -81,6 +87,7 @@ router.get('/products', withAuth, async (req, res) => {
   
         res.render('products', { products: products, categories: categories,
             logged_in: req.session.logged_in,
+            role: req.session.role,
         })
      
     } catch (err) {
@@ -99,6 +106,7 @@ router.get('/categories', withAuth, async (req, res) => {
 
       res.render('categories', { categories: categories, products: products,
           logged_in: req.session.logged_in,
+          role: req.session.role,
       })
   } catch (err) {
       res.status(500).json(err);
@@ -143,7 +151,12 @@ router.get('/orders', withAuth, async (req, res) => {
         const customerData = customers.map(customer => customer.get({ plain: true }));
 
         res.render('orders', {
-            orderData: orderData, productData: productData, userData: userData, customerData: customerData, logged_in: req.session.logged_in,
+            orderData: orderData, 
+            productData: productData, 
+            userData: userData, 
+            customerData: customerData, 
+            logged_in: req.session.logged_in,
+            role: req.session.role,
         })
     } catch (err) {
         res.status(500).json(err);
@@ -178,7 +191,10 @@ router.get('/customers', withAuth, async (req, res) => {
         const userData = users.map(user => user.get({ plain: true }));
 
         res.render('customers', {
-            customerData: customerData, userData: userData, logged_in: req.session.logged_in,
+            customerData: customerData, 
+            userData: userData, 
+            logged_in: req.session.logged_in,
+            role: req.session.role,
         });
     } catch (err) {
         res.status(500).json(err);
@@ -186,7 +202,7 @@ router.get('/customers', withAuth, async (req, res) => {
 });
 
 //Route to users page
-router.get('/users', withAuth, async (req, res) => {
+router.get('/users', ensureManager, withAuth, async (req, res) => {
     try {
         const data = await Users.findAll({
             include: [
@@ -208,7 +224,9 @@ router.get('/users', withAuth, async (req, res) => {
         })
 
         res.render('users', {
-            userData: userData, logged_in: req.session.logged_in,
+            userData: userData, 
+            logged_in: req.session.logged_in,
+            role: req.session.role,
         });
         console.log(userData);
     } catch (error) {

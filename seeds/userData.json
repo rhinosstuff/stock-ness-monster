@@ -3,12 +3,21 @@
         "first_name": "John",
         "last_name": "Doe",
         "username": "johndoe123",
-        "password": "securepassword1"
+        "password": "securepassword1",
+        "role": "user"
     },
     {
         "first_name": "Jane",
         "last_name": "Smith",
         "username": "janesmith456",
-        "password": "securepassword2"
+        "password": "securepassword2",
+        "role": "user"
+    },
+    {
+        "first_name": "Ryan",
+        "last_name": "Osguthorpe",
+        "username": "rhinosstuff",
+        "password": "ThisIsMyPassword123",
+        "role": "manager"
     }
 ]
